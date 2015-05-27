@@ -61,7 +61,7 @@ public class SwaggerInitConfig extends HttpServlet {
             ConfigFactory.setConfig(swaggerConfig);
             ConfigFactory.config().setApiInfo(info);
             swaggerConfig.setBasePath("/FAHServices/rest");
-            swaggerConfig.setApiVersion("1.0.0");
+            swaggerConfig.setApiVersion("1.2");
             ScannerFactory.setScanner(new DefaultJaxrsScanner());
             ClassReaders.setReader(new DefaultJaxrsApiReader());
         } catch (ServletException e) {

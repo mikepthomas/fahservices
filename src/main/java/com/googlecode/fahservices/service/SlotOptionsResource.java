@@ -52,12 +52,7 @@ import javax.ws.rs.core.UriInfo;
  * @version $Id: $Id
  */
 @Path("slot-options")
-@Api(value = "/slot-options", description = "Get Slot Options.")
-@Produces({
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_XML,
-    MediaType.TEXT_XML
-})
+@Api(value = "/slot-options", description = "Get slot options.")
 public class SlotOptionsResource {
 
     @Context
@@ -84,6 +79,11 @@ public class SlotOptionsResource {
      */
     @GET
     @Path("/{slot}")
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
     @ApiOperation(value = "slot-options {slot}",
             notes = "Get Slot Options at index.",
             response = SlotOptions.class,

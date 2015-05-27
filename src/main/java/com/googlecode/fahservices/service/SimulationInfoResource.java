@@ -53,11 +53,6 @@ import javax.ws.rs.core.UriInfo;
  */
 @Path("simulation-info")
 @Api(value = "/simulation-info", description = "Get current simulation information.")
-@Produces({
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_XML,
-    MediaType.TEXT_XML
-})
 public class SimulationInfoResource {
 
     @Context
@@ -84,6 +79,11 @@ public class SimulationInfoResource {
      */
     @GET
     @Path("/{slot}")
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
     @ApiOperation(value = "simulation-info {slot}",
             notes = "Get current simulation information.",
             response = SimulationInfo.class,

@@ -22,22 +22,23 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.Connection;
 import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.exceptions.PauseException;
+import com.googlecode.jfold.Connection;
+import com.googlecode.jfold.exceptions.InfoException;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -48,18 +49,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("/pause")
-@Api(value = "/pause", description = "Pause all or one slot(s).")
-public class PauseResource {
+@Path("info")
+@Api(value = "/info", description = "Print application information.")
+public class InfoResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of PauseResource.
+     * Creates a new instance of InfoResource.
      */
-    public PauseResource() {
+    public InfoResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -69,54 +70,29 @@ public class PauseResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.PauseResource.
+     * com.googlecode.fahservices.service.InfoResource.
      *
      * @return an instance of java.lang.String
      */
     @GET
-    @ApiOperation(value = "pause",
-            notes = "Pause.",
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
+    @ApiOperation(value = "info",
+            notes = "Get Info.",
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad Request", response = PauseException.class)
+        @ApiResponse(code = 500, message = "Error", response = InfoException.class)
     })
-    public Response getPause() {
+    public Response getInfo() {
         try {
-            connection.pause();
-            return Response.status(Status.OK).build();
-        } catch (PauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.PauseResource.
-     *
-     * @param slot Slot number
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("/{slot}")
-    @ApiOperation(
-            value = "pause",
-            notes = "Pause the specified index.",
-            position = 2
-    )
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad Request", response = PauseException.class)
-    })
-    public Response getPause(
-            @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
-        try {
-            connection.pause(slot);
-            return Response.status(Status.OK).build();
-        } catch (PauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+            List<Object> value = connection.info();
+            return Response.status(Status.OK).entity(new GenericEntity<List<Object>>(value) { }).build();
+        } catch (InfoException ex) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
     }
 }

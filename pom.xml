@@ -85,11 +85,11 @@
 
         <!-- Plugin Versions -->
         <version.maven-antrun-plugin>1.8</version.maven-antrun-plugin>
-        <version.maven-assembly-plugin>2.5.3</version.maven-assembly-plugin>
+        <version.maven-assembly-plugin>2.5.4</version.maven-assembly-plugin>
         <version.maven-changelog-plugin>2.3</version.maven-changelog-plugin>
-        <version.maven-checkstyle-plugin>2.13</version.maven-checkstyle-plugin>
+        <version.maven-checkstyle-plugin>2.15</version.maven-checkstyle-plugin>
         <version.maven-clean-plugin>2.6.1</version.maven-clean-plugin>
-        <version.maven-compiler-plugin>3.2</version.maven-compiler-plugin>
+        <version.maven-compiler-plugin>3.3</version.maven-compiler-plugin>
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
         <version.maven-deploy-plugin>2.8.2</version.maven-deploy-plugin>
         <version.maven-enforcer-plugin>1.4</version.maven-enforcer-plugin>
@@ -98,23 +98,23 @@
         <version.maven-jar-plugin>2.5</version.maven-jar-plugin>
         <version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
-        <version.maven-pmd-plugin>3.3</version.maven-pmd-plugin>
+        <version.maven-pmd-plugin>3.4</version.maven-pmd-plugin>
         <version.maven-project-info-reports-plugin>2.8</version.maven-project-info-reports-plugin>
-        <version.maven-release-plugin>2.5.1</version.maven-release-plugin>
+        <version.maven-release-plugin>2.5.2</version.maven-release-plugin>
         <version.maven-resources-plugin>2.7</version.maven-resources-plugin>
         <version.maven-site-plugin>3.4</version.maven-site-plugin>
         <version.maven-source-plugin>2.4</version.maven-source-plugin>
         <version.maven-surefire-plugin>2.18.1</version.maven-surefire-plugin>
         <version.maven-war-plugin>2.6</version.maven-war-plugin>
         <version.clirr-maven-plugin>2.6.1</version.clirr-maven-plugin>
-        <version.cobertura-maven-plugin>2.6</version.cobertura-maven-plugin>
-        <version.findbugs-maven-plugin>3.0.0</version.findbugs-maven-plugin>
+        <version.cobertura-maven-plugin>2.7</version.cobertura-maven-plugin>
+        <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
         <version.jdepend-maven-plugin>2.0</version.jdepend-maven-plugin>
         <version.l10n-maven-plugin>1.0-alpha-2</version.l10n-maven-plugin>
         <version.license-maven-plugin>1.8</version.license-maven-plugin>
         <version.sonar-maven-plugin>2.1</version.sonar-maven-plugin>
         <version.taglist-maven-plugin>2.4</version.taglist-maven-plugin>
-        <version.versions-maven-plugin>2.1</version.versions-maven-plugin>
+        <version.versions-maven-plugin>2.2</version.versions-maven-plugin>
     </properties>
 
     <dependencyManagement>

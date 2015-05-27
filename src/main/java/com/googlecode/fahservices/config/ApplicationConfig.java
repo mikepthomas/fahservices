@@ -55,10 +55,12 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.googlecode.fahservices.provider.JacksonContextResolver.class);
+        resources.add(com.googlecode.fahservices.service.InfoResource.class);
         resources.add(com.googlecode.fahservices.service.OptionsResource.class);
         resources.add(com.googlecode.fahservices.service.PauseResource.class);
         resources.add(com.googlecode.fahservices.service.QueueInfoResource.class);
         resources.add(com.googlecode.fahservices.service.SimulationInfoResource.class);
+        resources.add(com.googlecode.fahservices.service.SlotAddResource.class);
         resources.add(com.googlecode.fahservices.service.SlotInfoResource.class);
         resources.add(com.googlecode.fahservices.service.SlotOptionsResource.class);
         resources.add(com.googlecode.fahservices.service.UnpauseResource.class);
