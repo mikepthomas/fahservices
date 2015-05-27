@@ -52,11 +52,6 @@ import javax.ws.rs.core.UriInfo;
  */
 @Path("queue-info")
 @Api(value = "/queue-info", description = "Get work unit queue information.")
-@Produces({
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_XML,
-    MediaType.TEXT_XML
-})
 public class QueueInfoResource {
 
     @Context
@@ -81,6 +76,11 @@ public class QueueInfoResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
     @ApiOperation(value = "queue-info",
             notes = "Get List of work unit queue information.",
             response = Unit.class,

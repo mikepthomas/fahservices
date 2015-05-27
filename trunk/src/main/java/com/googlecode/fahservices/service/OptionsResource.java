@@ -49,12 +49,7 @@ import javax.ws.rs.core.UriInfo;
  * @version $Id: $Id
  */
 @Path("options")
-@Api(value = "/options", description = "Get Options.")
-@Produces({
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_XML,
-    MediaType.TEXT_XML
-})
+@Api(value = "/options", description = "List or set options with their values.")
 public class OptionsResource {
 
     @Context
@@ -79,6 +74,11 @@ public class OptionsResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
     @ApiOperation(value = "options",
             notes = "Get Options.",
             response = Options.class,

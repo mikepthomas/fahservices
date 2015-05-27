@@ -55,11 +55,6 @@ import javax.ws.rs.core.UriInfo;
  */
 @Path("/slot-info")
 @Api(value = "/slot-info", description = "Get slot information.")
-@Produces({
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_XML,
-    MediaType.TEXT_XML
-})
 public class SlotInfoResource {
 
     @Context
@@ -84,6 +79,11 @@ public class SlotInfoResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
     @ApiOperation(value = "slot-info",
             notes = "Get List of slot information.",
             position = 1,
@@ -111,6 +111,11 @@ public class SlotInfoResource {
      */
     @GET
     @Path("/{slot}")
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
     @ApiOperation(
             value = "slot-info",
             notes = "Get slot information at specified index.",

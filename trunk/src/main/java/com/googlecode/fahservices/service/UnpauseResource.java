@@ -37,9 +37,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -51,12 +49,7 @@ import javax.ws.rs.core.UriInfo;
  * @version $Id: $Id
  */
 @Path("/unpause")
-@Api(value = "/unpause", description = "Unpause.")
-@Produces({
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_XML,
-    MediaType.TEXT_XML
-})
+@Api(value = "/unpause", description = "Unpause all or one slot(s).")
 public class UnpauseResource {
 
     @Context
