@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,24 +22,22 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.exceptions.QueueInfoException;
-import com.googlecode.jfold.unit.Unit;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.exceptions.UnpauseException;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -50,18 +48,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("queue-info")
-@Api(value = "/queue-info", description = "Get work unit queue information.")
-public class QueueInfoResource {
+@Path("/unpause")
+@Api(value = "/unpause", description = "Unpause all or one slot(s).")
+public class UnpauseResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of QueueInfoResource.
+     * Creates a new instance of UnpauseResource.
      */
-    public QueueInfoResource() {
+    public UnpauseResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -71,32 +69,54 @@ public class QueueInfoResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.QueueInfoResource.
+     * info.mikethomas.fahservices.service.UnpauseResource.
      *
      * @return an instance of java.lang.String
      */
     @GET
-    @Produces({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_XML,
-        MediaType.TEXT_XML
-    })
-    @ApiOperation(value = "queue-info",
-            notes = "Get List of work unit queue information.",
-            response = Unit.class,
-            responseContainer = "List",
+    @ApiOperation(value = "unpause",
+            notes = "Unpause.",
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = QueueInfoException.class)
+        @ApiResponse(code = 400, message = "Bad Request", response = UnpauseException.class)
     })
-    public Response getQueueInfo() {
+    public Response getUnpause() {
         try {
-            List<Unit> value = connection.queueInfo();
-            GenericEntity<List<Unit>> entity = new GenericEntity<List<Unit>>(value) { };
-            return Response.status(Status.OK).entity(entity).build();
-        } catch (QueueInfoException ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+            connection.unpause();
+            return Response.status(Status.OK).build();
+        } catch (UnpauseException ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * info.mikethomas.fahservices.service.UnpauseResource.
+     *
+     * @param slot Slot number
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Path("/{slot}")
+    @ApiOperation(
+            value = "unpause",
+            notes = "Unpause the specified index.",
+            position = 2
+    )
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 400, message = "Bad Request", response = UnpauseException.class)
+    })
+    public Response getUnpause(
+            @ApiParam(value = "slot number", required = true)
+            @DefaultValue("0")
+            @PathParam("slot") final int slot) {
+        try {
+            connection.unpause(slot);
+            return Response.status(Status.OK).build();
+        } catch (UnpauseException ex) {
+            return Response.status(Status.BAD_REQUEST).entity(ex).build();
         }
     }
 }

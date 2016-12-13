@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.provider;
+package info.mikethomas.fahservices.provider;
 
 /*
  * #%L

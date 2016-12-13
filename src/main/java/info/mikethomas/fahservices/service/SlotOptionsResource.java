@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,19 +22,22 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.exceptions.OptionsException;
-import com.googlecode.jfold.options.Options;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.exceptions.SlotOptionsException;
+import info.mikethomas.jfold.slot.SlotOptions;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -48,18 +51,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("options")
-@Api(value = "/options", description = "List or set options with their values.")
-public class OptionsResource {
+@Path("slot-options")
+@Api(value = "/slot-options", description = "Get slot options.")
+public class SlotOptionsResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of OptionsResource.
+     * Creates a new instance of SlotOptionsResource.
      */
-    public OptionsResource() {
+    public SlotOptionsResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -69,29 +72,34 @@ public class OptionsResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.OptionsResource.
+     * info.mikethomas.fahservices.service.SlotOptionsResource.
      *
+     * @param slot Slot number
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("/{slot}")
     @Produces({
         MediaType.APPLICATION_JSON,
         MediaType.APPLICATION_XML,
         MediaType.TEXT_XML
     })
-    @ApiOperation(value = "options",
-            notes = "Get Options.",
-            response = Options.class,
+    @ApiOperation(value = "slot-options {slot}",
+            notes = "Get Slot Options at index.",
+            response = SlotOptions.class,
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = OptionsException.class)
+        @ApiResponse(code = 500, message = "Error", response = SlotOptionsException.class)
     })
-    public Response getSlotOptions() {
+    public Response getSlotOptions(
+            @ApiParam(value = "slot number", required = true)
+            @DefaultValue("0")
+            @PathParam("slot") final int slot) {
         try {
-            Options value = connection.options(true, true);
+            SlotOptions value = connection.slotOptions(slot);
             return Response.status(Status.OK).entity(value).build();
-        } catch (OptionsException ex) {
+        } catch (SlotOptionsException ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
     }

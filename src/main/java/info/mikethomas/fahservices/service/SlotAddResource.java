@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,10 +22,9 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.exceptions.SimulationInfoException;
-import com.googlecode.jfold.simulation.SimulationInfo;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.exceptions.SlotAddException;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -35,7 +34,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -51,18 +50,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("simulation-info")
-@Api(value = "/simulation-info", description = "Get current simulation information.")
-public class SimulationInfoResource {
+@Path("slot-add")
+@Api(value = "/slot-add", description = "Add a new slot.")
+public class SlotAddResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of SlotInfoResource.
+     * Creates a new instance of SlotAddResource.
      */
-    public SimulationInfoResource() {
+    public SlotAddResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -72,34 +71,33 @@ public class SimulationInfoResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.SlotInfoResource.
+     * info.mikethomas.fahservices.service.SlotAddResource.
      *
-     * @param slot Slot number
+     * @param type Slot type
      * @return an instance of java.lang.String
      */
-    @GET
-    @Path("/{slot}")
+    @POST
+    @Path("/{type}")
     @Produces({
         MediaType.APPLICATION_JSON,
         MediaType.APPLICATION_XML,
         MediaType.TEXT_XML
     })
-    @ApiOperation(value = "simulation-info {slot}",
-            notes = "Get current simulation information.",
-            response = SimulationInfo.class,
+    @ApiOperation(value = "slot-add {type}",
+            notes = "Add a new slot.",
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = SimulationInfoException.class)
+        @ApiResponse(code = 500, message = "Error", response = SlotAddException.class)
     })
-    public Response getSimulationInfo(
-            @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
+    public Response getSlotAdd(
+            @ApiParam(value = "slot type", allowableValues = "CPU,GPU", required = true)
+            @DefaultValue("CPU")
+            @PathParam("type") final String type) {
         try {
-            SimulationInfo value = connection.simulationInfo(slot);
-            return Response.status(Status.OK).entity(value).build();
-        } catch (SimulationInfoException ex) {
+            connection.slotAdd(type);
+            return Response.status(Status.OK).build();
+        } catch (SlotAddException ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
     }

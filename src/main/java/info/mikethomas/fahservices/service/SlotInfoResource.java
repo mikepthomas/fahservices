@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,16 +22,17 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.exceptions.SlotOptionsException;
-import com.googlecode.jfold.slot.SlotOptions;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.exceptions.SlotInfoException;
+import info.mikethomas.jfold.slot.Slot;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.DefaultValue;
@@ -40,6 +41,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -51,18 +53,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("slot-options")
-@Api(value = "/slot-options", description = "Get slot options.")
-public class SlotOptionsResource {
+@Path("/slot-info")
+@Api(value = "/slot-info", description = "Get slot information.")
+public class SlotInfoResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of SlotOptionsResource.
+     * Creates a new instance of SlotInfoResource.
      */
-    public SlotOptionsResource() {
+    public SlotInfoResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -72,7 +74,37 @@ public class SlotOptionsResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.SlotOptionsResource.
+     * info.mikethomas.fahservices.service.SlotInfoResource.
+     *
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
+    @ApiOperation(value = "slot-info",
+            notes = "Get List of slot information.",
+            position = 1,
+            response = Slot.class,
+            responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 500, message = "Error", response = SlotInfoException.class)
+    })
+    public Response getSlotInfo() {
+        try {
+            List<Slot> value = getSlotInfoList();
+            return Response.status(Status.OK).entity(new GenericEntity<List<Slot>>(value) { }).build();
+        } catch (SlotInfoException ex) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+        }
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * info.mikethomas.fahservices.service.SlotInfoResource.
      *
      * @param slot Slot number
      * @return an instance of java.lang.String
@@ -84,23 +116,29 @@ public class SlotOptionsResource {
         MediaType.APPLICATION_XML,
         MediaType.TEXT_XML
     })
-    @ApiOperation(value = "slot-options {slot}",
-            notes = "Get Slot Options at index.",
-            response = SlotOptions.class,
-            position = 1)
+    @ApiOperation(
+            value = "slot-info",
+            notes = "Get slot information at specified index.",
+            response = Slot.class,
+            position = 2
+    )
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = SlotOptionsException.class)
+        @ApiResponse(code = 500, message = "Error", response = SlotInfoException.class)
     })
-    public Response getSlotOptions(
+    public Response getSlotInfo(
             @ApiParam(value = "slot number", required = true)
             @DefaultValue("0")
             @PathParam("slot") final int slot) {
         try {
-            SlotOptions value = connection.slotOptions(slot);
-            return Response.status(Status.OK).entity(value).build();
-        } catch (SlotOptionsException ex) {
+            Slot value = getSlotInfoList().get(slot);
+            return Response.status(Response.Status.OK).entity(value).build();
+        } catch (SlotInfoException ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
+    }
+
+    private List<Slot> getSlotInfoList() throws SlotInfoException {
+        return connection.slotInfo();
     }
 }

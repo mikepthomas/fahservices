@@ -21,4 +21,4 @@
   #L%
   -->
 
-<Context antiJARLocking="true" path="/FAHServices"/>
+<Context antiJARLocking="true" path="/fahservices"/>

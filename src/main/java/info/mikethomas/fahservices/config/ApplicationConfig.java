@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.config;
+package info.mikethomas.fahservices.config;
 
 /*
  * #%L
@@ -54,15 +54,15 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.googlecode.fahservices.provider.JacksonContextResolver.class);
-        resources.add(com.googlecode.fahservices.service.InfoResource.class);
-        resources.add(com.googlecode.fahservices.service.OptionsResource.class);
-        resources.add(com.googlecode.fahservices.service.PauseResource.class);
-        resources.add(com.googlecode.fahservices.service.QueueInfoResource.class);
-        resources.add(com.googlecode.fahservices.service.SimulationInfoResource.class);
-        resources.add(com.googlecode.fahservices.service.SlotAddResource.class);
-        resources.add(com.googlecode.fahservices.service.SlotInfoResource.class);
-        resources.add(com.googlecode.fahservices.service.SlotOptionsResource.class);
-        resources.add(com.googlecode.fahservices.service.UnpauseResource.class);
+        resources.add(info.mikethomas.fahservices.provider.JacksonContextResolver.class);
+        resources.add(info.mikethomas.fahservices.service.InfoResource.class);
+        resources.add(info.mikethomas.fahservices.service.OptionsResource.class);
+        resources.add(info.mikethomas.fahservices.service.PauseResource.class);
+        resources.add(info.mikethomas.fahservices.service.QueueInfoResource.class);
+        resources.add(info.mikethomas.fahservices.service.SimulationInfoResource.class);
+        resources.add(info.mikethomas.fahservices.service.SlotAddResource.class);
+        resources.add(info.mikethomas.fahservices.service.SlotInfoResource.class);
+        resources.add(info.mikethomas.fahservices.service.SlotOptionsResource.class);
+        resources.add(info.mikethomas.fahservices.service.UnpauseResource.class);
     }
 }

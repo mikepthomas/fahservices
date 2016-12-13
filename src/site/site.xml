@@ -35,12 +35,6 @@
 
         <menu ref="parent" />
         <menu ref="reports" />
-
-        <menu name="Languages">
-            <item name="In Deutsch" href="${project.url}/de/index.html" />
-            <item name="En Français" href="${project.url}/fr/index.html" />
-            <item name="På Svenska" href="${project.url}/sv/index.html" />
-        </menu>
     </body>
 
     <publishDate position="right"/>

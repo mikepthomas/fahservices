@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,9 +22,10 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.exceptions.InfoException;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.exceptions.QueueInfoException;
+import info.mikethomas.jfold.unit.Unit;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -49,18 +50,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("info")
-@Api(value = "/info", description = "Print application information.")
-public class InfoResource {
+@Path("queue-info")
+@Api(value = "/queue-info", description = "Get work unit queue information.")
+public class QueueInfoResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of InfoResource.
+     * Creates a new instance of QueueInfoResource.
      */
-    public InfoResource() {
+    public QueueInfoResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -70,7 +71,7 @@ public class InfoResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.InfoResource.
+     * info.mikethomas.fahservices.service.QueueInfoResource.
      *
      * @return an instance of java.lang.String
      */
@@ -80,18 +81,21 @@ public class InfoResource {
         MediaType.APPLICATION_XML,
         MediaType.TEXT_XML
     })
-    @ApiOperation(value = "info",
-            notes = "Get Info.",
+    @ApiOperation(value = "queue-info",
+            notes = "Get List of work unit queue information.",
+            response = Unit.class,
+            responseContainer = "List",
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = InfoException.class)
+        @ApiResponse(code = 500, message = "Error", response = QueueInfoException.class)
     })
-    public Response getInfo() {
+    public Response getQueueInfo() {
         try {
-            List<Object> value = connection.info();
-            return Response.status(Status.OK).entity(new GenericEntity<List<Object>>(value) { }).build();
-        } catch (InfoException ex) {
+            List<Unit> value = connection.queueInfo();
+            GenericEntity<List<Unit>> entity = new GenericEntity<List<Unit>>(value) { };
+            return Response.status(Status.OK).entity(entity).build();
+        } catch (QueueInfoException ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
     }

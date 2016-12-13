@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,9 +22,9 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.exceptions.PauseException;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.exceptions.PauseException;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -69,7 +69,7 @@ public class PauseResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.PauseResource.
+     * info.mikethomas.fahservices.service.PauseResource.
      *
      * @return an instance of java.lang.String
      */
@@ -92,7 +92,7 @@ public class PauseResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.PauseResource.
+     * info.mikethomas.fahservices.service.PauseResource.
      *
      * @param slot Slot number
      * @return an instance of java.lang.String

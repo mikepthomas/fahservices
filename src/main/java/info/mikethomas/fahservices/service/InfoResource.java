@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,23 +22,22 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.exceptions.SlotAddException;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.exceptions.InfoException;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -50,18 +49,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("slot-add")
-@Api(value = "/slot-add", description = "Add a new slot.")
-public class SlotAddResource {
+@Path("info")
+@Api(value = "/info", description = "Print application information.")
+public class InfoResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of SlotAddResource.
+     * Creates a new instance of InfoResource.
      */
-    public SlotAddResource() {
+    public InfoResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -71,33 +70,28 @@ public class SlotAddResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.SlotAddResource.
+     * info.mikethomas.fahservices.service.InfoResource.
      *
-     * @param type Slot type
      * @return an instance of java.lang.String
      */
-    @POST
-    @Path("/{type}")
+    @GET
     @Produces({
         MediaType.APPLICATION_JSON,
         MediaType.APPLICATION_XML,
         MediaType.TEXT_XML
     })
-    @ApiOperation(value = "slot-add {type}",
-            notes = "Add a new slot.",
+    @ApiOperation(value = "info",
+            notes = "Get Info.",
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = SlotAddException.class)
+        @ApiResponse(code = 500, message = "Error", response = InfoException.class)
     })
-    public Response getSlotAdd(
-            @ApiParam(value = "slot type", allowableValues = "CPU,GPU", required = true)
-            @DefaultValue("CPU")
-            @PathParam("type") final String type) {
+    public Response getInfo() {
         try {
-            connection.slotAdd(type);
-            return Response.status(Status.OK).build();
-        } catch (SlotAddException ex) {
+            List<Object> value = connection.info();
+            return Response.status(Status.OK).entity(new GenericEntity<List<Object>>(value) { }).build();
+        } catch (InfoException ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
     }

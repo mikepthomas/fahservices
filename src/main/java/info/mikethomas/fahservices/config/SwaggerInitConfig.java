@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.config;
+package info.mikethomas.fahservices.config;
 
 /*
  * #%L
@@ -60,7 +60,7 @@ public class SwaggerInitConfig extends HttpServlet {
             SwaggerConfig swaggerConfig = new SwaggerConfig();
             ConfigFactory.setConfig(swaggerConfig);
             ConfigFactory.config().setApiInfo(info);
-            swaggerConfig.setBasePath("/FAHServices/rest");
+            swaggerConfig.setBasePath("/fahservices/rest");
             swaggerConfig.setApiVersion("1.2");
             ScannerFactory.setScanner(new DefaultJaxrsScanner());
             ClassReaders.setReader(new DefaultJaxrsApiReader());

@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.googlecode.fahservices</groupId>
+    <groupId>info.mikethomas.fahservices</groupId>
     <artifactId>FAHServices</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -26,10 +26,10 @@
 
     <developers>
         <developer>
-            <id>montycrabapple1@gmail.com</id>
+            <id>mikepthomas</id>
             <name>Mike Thomas</name>
-            <email>montycrabapple@hotmail.com</email>
-            <url>http://www.mikethomas.info</url>
+            <email>mikepthomas@outlook.com</email>
+            <url>${project.domain.reports}</url>
             <timezone>0</timezone>
             <roles>
                 <role>Owner</role>
@@ -45,14 +45,14 @@
     <modules/>
 
     <scm>
-        <connection>scm:svn:http://${project.domain.source}/svn/trunk</connection>
-        <developerConnection>scm:svn:https://${project.domain.source}/svn/trunk</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://code.google.com/p/fahservices/source/browse</url>
+        <connection>scm:git:git://github.com/mikepthomas/fahservices.git</connection>
+        <developerConnection>scm:git:git@github.com:mikepthomas/fahservices.git</developerConnection>
+        <tag>master</tag>
+        <url>${project.domain.source}/fahservices</url>
     </scm>
     <issueManagement>
-        <system>Google Code</system>
-        <url>http://code.google.com/p/fahservices/issues</url>
+        <system>GitHub Issues</system>
+        <url>${project.domain.source}/fahservices/issues</url>
     </issueManagement>
     <ciManagement>
         <system>Jenkins</system>
@@ -73,12 +73,14 @@
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.targetJdk>1.7</project.build.targetJdk>
-        <project.domain.deployment>oss.sonatype.org</project.domain.deployment>
+
+        <project.domain.deployment>https://oss.sonatype.org</project.domain.deployment>
         <project.domain.reports>www.mikethomas.info</project.domain.reports>
-        <project.domain.source>fahservices.googlecode.com</project.domain.source>
-        <sonar.language>java</sonar.language>
+        <project.domain.source>https://github.com/mikepthomas</project.domain.source>
 
         <!-- Dependency Versions -->
         <org.slf4j.version>1.6.3</org.slf4j.version>
@@ -146,7 +148,7 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>com.googlecode.jfold</groupId>
+            <groupId>info.mikethomas</groupId>
             <artifactId>jfold</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -288,8 +290,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.maven-compiler-plugin}</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
@@ -335,7 +335,8 @@
                 <version>${version.maven-site-plugin}</version>
                 <configuration>
                     <generateSitemap>true</generateSitemap>
-                    <locales>en,de,fr,sv</locales>
+                    <locales>en</locales>
+                    <skipDeploy>true</skipDeploy>
                 </configuration>
                 <executions>
                     <execution>
@@ -478,18 +479,6 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>l10n-maven-plugin</artifactId>
-                <version>${version.l10n-maven-plugin}</version>
-                <configuration>
-                    <locales>
-                        <locale>de</locale>
-                        <locale>fr</locale>
-                        <locale>sv</locale>
-                    </locales>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${version.license-maven-plugin}</version>
                 <reportSets>
@@ -579,6 +568,29 @@
             <id>release-profile</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.12</version>
+                        <configuration>
+                            <message>Creating site for ${project.version}</message>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site-deploy</phase>
+                                <configuration>
+                                    <server>github</server>
+                                    <!-- The commit message -->
+                                    <message>Building site for my project</message>
+                                    <!-- Use merge or override the content -->
+                                    <merge>true</merge>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>

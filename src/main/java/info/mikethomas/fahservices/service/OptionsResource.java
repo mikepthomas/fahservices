@@ -1,4 +1,4 @@
-package com.googlecode.fahservices.service;
+package info.mikethomas.fahservices.service;
 
 /*
  * #%L
@@ -22,22 +22,22 @@ package com.googlecode.fahservices.service;
  * #L%
  */
 
-import com.googlecode.jfold.Connection;
-import com.googlecode.jfold.ClientConnection;
-import com.googlecode.jfold.exceptions.UnpauseException;
+import info.mikethomas.jfold.ClientConnection;
+import info.mikethomas.jfold.Connection;
+import info.mikethomas.jfold.exceptions.OptionsException;
+import info.mikethomas.jfold.options.Options;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -48,18 +48,18 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("/unpause")
-@Api(value = "/unpause", description = "Unpause all or one slot(s).")
-public class UnpauseResource {
+@Path("options")
+@Api(value = "/options", description = "List or set options with their values.")
+public class OptionsResource {
 
     @Context
     private UriInfo context;
     private Connection connection;
 
     /**
-     * Creates a new instance of UnpauseResource.
+     * Creates a new instance of OptionsResource.
      */
-    public UnpauseResource() {
+    public OptionsResource() {
         try {
             connection = new ClientConnection("localhost", 36330);
         } catch (IOException ex) {
@@ -69,54 +69,30 @@ public class UnpauseResource {
 
     /**
      * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.UnpauseResource.
+     * info.mikethomas.fahservices.service.OptionsResource.
      *
      * @return an instance of java.lang.String
      */
     @GET
-    @ApiOperation(value = "unpause",
-            notes = "Unpause.",
+    @Produces({
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_XML,
+        MediaType.TEXT_XML
+    })
+    @ApiOperation(value = "options",
+            notes = "Get Options.",
+            response = Options.class,
             position = 1)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad Request", response = UnpauseException.class)
+        @ApiResponse(code = 500, message = "Error", response = OptionsException.class)
     })
-    public Response getUnpause() {
+    public Response getSlotOptions() {
         try {
-            connection.unpause();
-            return Response.status(Status.OK).build();
-        } catch (UnpauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
-        }
-    }
-
-    /**
-     * Retrieves representation of an instance of
-     * com.googlecode.fahservices.service.UnpauseResource.
-     *
-     * @param slot Slot number
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Path("/{slot}")
-    @ApiOperation(
-            value = "unpause",
-            notes = "Unpause the specified index.",
-            position = 2
-    )
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad Request", response = UnpauseException.class)
-    })
-    public Response getUnpause(
-            @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
-        try {
-            connection.unpause(slot);
-            return Response.status(Status.OK).build();
-        } catch (UnpauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+            Options value = connection.options(true, true);
+            return Response.status(Status.OK).entity(value).build();
+        } catch (OptionsException ex) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
         }
     }
 }
