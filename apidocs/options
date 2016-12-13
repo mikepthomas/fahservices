@@ -1,0 +1,25 @@
+-classpath
+'/Volumes/Documents/Repos/fahservices/target/classes:/Users/Mike/.m2/repository/joda-time/joda-time/2.3/joda-time-2.3.jar:/Users/Mike/.m2/repository/org/json4s/json4s-ast_2.11/3.2.11/json4s-ast_2.11-3.2.11.jar:/Users/Mike/.m2/repository/javax/javaee-web-api/7.0/javaee-web-api-7.0.jar:/Users/Mike/.m2/repository/com/wordnik/swagger-annotations/1.3.12/swagger-annotations-1.3.12.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.4.1/jackson-jaxrs-base-2.4.1.jar:/Users/Mike/.m2/repository/org/json4s/json4s-native_2.11/3.2.11/json4s-native_2.11-3.2.11.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.4.1/jackson-jaxrs-json-provider-2.4.1.jar:/Users/Mike/.m2/repository/org/json4s/json4s-ext_2.11/3.2.11/json4s-ext_2.11-3.2.11.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/module/jackson-module-scala_2.11/2.4.1/jackson-module-scala_2.11-2.4.1.jar:/Users/Mike/.m2/repository/org/reflections/reflections/0.9.9/reflections-0.9.9.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.4.1/jackson-annotations-2.4.1.jar:/Users/Mike/.m2/repository/org/javassist/javassist/3.18.2-GA/javassist-3.18.2-GA.jar:/Users/Mike/.m2/repository/com/wordnik/swagger-core_2.11/1.3.12/swagger-core_2.11-1.3.12.jar:/Users/Mike/.m2/repository/org/json4s/json4s-jackson_2.11/3.2.11/json4s-jackson_2.11-3.2.11.jar:/Users/Mike/.m2/repository/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.4.1/jackson-core-2.4.1.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.4.1/jackson-module-jaxb-annotations-2.4.1.jar:/Users/Mike/.m2/repository/com/google/guava/guava/15.0/guava-15.0.jar:/Users/Mike/.m2/repository/org/joda/joda-convert/1.6/joda-convert-1.6.jar:/Users/Mike/.m2/repository/info/mikethomas/jfold/1.0-SNAPSHOT/jfold-1.0-SNAPSHOT.jar:/Users/Mike/.m2/repository/org/scala-lang/scala-reflect/2.11.1/scala-reflect-2.11.1.jar:/Users/Mike/.m2/repository/com/thoughtworks/paranamer/paranamer/2.6/paranamer-2.6.jar:/Users/Mike/.m2/repository/com/wordnik/swagger-jaxrs_2.11/1.3.12/swagger-jaxrs_2.11-1.3.12.jar:/Users/Mike/.m2/repository/org/scala-lang/scala-library/2.11.1/scala-library-2.11.1.jar:/Users/Mike/.m2/repository/org/json4s/json4s-core_2.11/3.2.11/json4s-core_2.11-3.2.11.jar:/Users/Mike/.m2/repository/org/scala-lang/scalap/2.11.0/scalap-2.11.0.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.4.1.1/jackson-databind-2.4.1.1.jar:/Users/Mike/.m2/repository/org/scala-lang/modules/scala-parser-combinators_2.11/1.0.1/scala-parser-combinators_2.11-1.0.1.jar:/Users/Mike/.m2/repository/org/scala-lang/modules/scala-xml_2.11/1.0.1/scala-xml_2.11-1.0.1.jar:/Users/Mike/.m2/repository/com/fasterxml/jackson/module/jackson-module-jsonSchema/2.4.1/jackson-module-jsonSchema-2.4.1.jar:/Users/Mike/.m2/repository/org/scala-lang/scala-compiler/2.11.0/scala-compiler-2.11.0.jar:/Users/Mike/.m2/repository/com/google/code/findbugs/jsr305/2.0.1/jsr305-2.0.1.jar:/Users/Mike/.m2/repository/com/google/code/findbugs/annotations/2.0.1/annotations-2.0.1.jar'
+-encoding
+'UTF-8'
+-public
+-quiet
+-sourcepath
+'/Volumes/Documents/Repos/fahservices/src/main/java:/Volumes/Documents/Repos/fahservices/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2014&#x2013;2016. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Volumes/Documents/Repos/fahservices/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'FAHServices 1.0-SNAPSHOT API'
+-linkoffline
+'http://docs.oracle.com/javase/7/docs/api' '/Volumes/Documents/Repos/fahservices/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'FAHServices 1.0-SNAPSHOT API'
