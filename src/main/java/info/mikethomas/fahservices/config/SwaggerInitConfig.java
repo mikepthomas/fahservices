@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.config;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2015 Michael Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2017 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -22,13 +22,7 @@ package info.mikethomas.fahservices.config;
  * #L%
  */
 
-import com.wordnik.swagger.config.ConfigFactory;
-import com.wordnik.swagger.config.ScannerFactory;
-import com.wordnik.swagger.config.SwaggerConfig;
-import com.wordnik.swagger.model.ApiInfo;
-import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
-import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
-import com.wordnik.swagger.reader.ClassReaders;
+import io.swagger.jaxrs.config.BeanConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,27 +37,28 @@ import javax.servlet.http.HttpServlet;
 @WebServlet(name = "SwaggerInitConfig", loadOnStartup = 1)
 public class SwaggerInitConfig extends HttpServlet {
 
-    ApiInfo info = new ApiInfo(
-      "FAHServices",                                    /* title */
-      "Web services to connect to a folding@home v7 client",
-      "http://mikethomas.info",                         /* TOS URL */
-      "mikepthomas@outlook.com",                        /* Contact */
-      "The GNU General Public License, Version 3",      /* license */
-      "http://www.gnu.org/copyleft/gpl.html"            /* license URL */
-    );
-
     /** {@inheritDoc} */
     @Override
     public void init(ServletConfig servletConfig) {
         try {
             super.init(servletConfig);
-            SwaggerConfig swaggerConfig = new SwaggerConfig();
-            ConfigFactory.setConfig(swaggerConfig);
-            ConfigFactory.config().setApiInfo(info);
-            swaggerConfig.setBasePath("/fahservices/rest");
-            swaggerConfig.setApiVersion("1.2");
-            ScannerFactory.setScanner(new DefaultJaxrsScanner());
-            ClassReaders.setReader(new DefaultJaxrsApiReader());
+
+            BeanConfig beanConfig = new BeanConfig();
+            beanConfig.setVersion("1.2");
+
+            beanConfig.setTitle("FAHServices");
+            beanConfig.setDescription("Web services to connect to a folding@home v7 client");
+            beanConfig.setTermsOfServiceUrl("http://mikethomas.info");
+            beanConfig.setContact("mikepthomas@outlook.com");
+            beanConfig.setLicense("The GNU General Public License, Version 3");
+            beanConfig.setLicenseUrl("http://www.gnu.org/copyleft/gpl.html");
+
+            beanConfig.setSchemes(new String[]{"http"});
+            beanConfig.setHost("localhost:8080");
+            beanConfig.setBasePath("/fahservices/rest");
+            beanConfig.setResourcePackage("info.mikethomas.fahservices.service");
+
+            beanConfig.setScan(true);
         } catch (ServletException e) {
             System.out.println(e.getMessage());
         }

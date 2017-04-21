@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2015 Michael Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2017 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -26,11 +26,11 @@ import info.mikethomas.jfold.Connection;
 import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.exceptions.SlotInfoException;
 import info.mikethomas.jfold.slot.Slot;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -90,7 +90,7 @@ public class SlotInfoResource {
             response = Slot.class,
             responseContainer = "List")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 200, message = "OK", response = Slot.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Error", response = SlotInfoException.class)
     })
     public Response getSlotInfo() {

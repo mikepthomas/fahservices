@@ -1,0 +1,42 @@
+{
+  "name": "fahservices",
+  "version": "1.0.0",
+  "authors": [
+    "Mike Thomas"
+  ],
+  "license": "GPLv3",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "homepage": "https://github.com/mikepthomas/fahservices",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "swagger-ui": "3.0.3"
+  },
+  "install": {
+    "path": {
+      "js": "src/main/webapp/libs",
+      "map": "src/main/webapp/libs"
+    },
+    "sources": {
+      "swagger-ui": [
+        "bower_components/swagger-ui/dist/swagger-ui-bundle.js",
+        "bower_components/swagger-ui/dist/swagger-ui-bundle.js.map",
+        "bower_components/swagger-ui/dist/swagger-ui-standalone-preset.js",
+        "bower_components/swagger-ui/dist/swagger-ui-standalone-preset.js.map",
+        "bower_components/swagger-ui/dist/swagger-ui.js",
+        "bower_components/swagger-ui/dist/swagger-ui.js.map"
+      ]
+    }
+  }
+}
