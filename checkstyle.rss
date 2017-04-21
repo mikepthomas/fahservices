@@ -23,10 +23,10 @@ under the License.
     <link>http://www.mikethomas.info/FAHServices</link>
     <description>FAHServices - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2014 - 2016</copyright>
+    <copyright>&#169;2014 - 2017</copyright>
     <item>
-      <title>File: 13,
-             Errors: 156,
+      <title>File: 12,
+             Errors: 142,
              Warnings: 0,
              Infos: 0
       </title>
@@ -46,90 +46,6 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.SlotAddResource.java">info/mikethomas/fahservices/service/SlotAddResource.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.config.ApplicationConfig.java">info/mikethomas/fahservices/config/ApplicationConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.config.SwaggerInitConfig.java">info/mikethomas/fahservices/config/SwaggerInitConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.provider.JacksonContextResolver.java">info/mikethomas/fahservices/provider/JacksonContextResolver.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.InfoResource.java">info/mikethomas/fahservices/service/InfoResource.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  13
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.UnpauseResource.java">info/mikethomas/fahservices/service/UnpauseResource.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.OptionsResource.java">info/mikethomas/fahservices/service/OptionsResource.java</a>
                 </td>
                 <td>
@@ -144,6 +60,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.SlotAddResource.java">info/mikethomas/fahservices/service/SlotAddResource.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.SlotInfoResource.java">info/mikethomas/fahservices/service/SlotInfoResource.java</a>
                 </td>
                 <td>
@@ -153,7 +83,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  18
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.config.SwaggerInitConfig.java">info/mikethomas/fahservices/config/SwaggerInitConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
               </tr>
                           <tr>
@@ -167,7 +111,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  13
                 </td>
               </tr>
                           <tr>
@@ -186,6 +130,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.provider.JacksonContextResolver.java">info/mikethomas/fahservices/provider/JacksonContextResolver.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.filter.CorsFilter.java">info/mikethomas/fahservices/filter/CorsFilter.java</a>
                 </td>
                 <td>
@@ -196,6 +154,20 @@ under the License.
                 </td>
                 <td>
                   9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.InfoResource.java">info/mikethomas/fahservices/service/InfoResource.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
                 </td>
               </tr>
                           <tr>
@@ -223,7 +195,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mikethomas.info/FAHServices/checkstyle.html#info.mikethomas.fahservices.service.UnpauseResource.java">info/mikethomas/fahservices/service/UnpauseResource.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
                 </td>
               </tr>
                       </tbody>

@@ -12,7 +12,7 @@
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * #%L</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * This file is part of FAHServices.</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * %%</em>
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Copyright (C) 2014 - 2015 Michael Thomas &lt;mikepthomas@outlook.com&gt;</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Copyright (C) 2014 - 2017 Michael Thomas &lt;mikepthomas@outlook.com&gt;</em>
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * %%</em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> * This program is free software: you can redistribute it and/or modify</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * it under the terms of the GNU General Public License as</em>
@@ -34,11 +34,11 @@
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> info.mikethomas.jfold.ClientConnection;
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> info.mikethomas.jfold.exceptions.SimulationInfoException;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> info.mikethomas.jfold.simulation.SimulationInfo;
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> com.wordnik.swagger.annotations.Api;
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> com.wordnik.swagger.annotations.ApiOperation;
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> com.wordnik.swagger.annotations.ApiParam;
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.wordnik.swagger.annotations.ApiResponse;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.wordnik.swagger.annotations.ApiResponses;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> io.swagger.annotations.Api;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> io.swagger.annotations.ApiOperation;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> io.swagger.annotations.ApiParam;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> io.swagger.annotations.ApiResponse;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> io.swagger.annotations.ApiResponses;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> java.util.logging.Level;
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> java.util.logging.Logger;
@@ -97,7 +97,7 @@
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>              response = SimulationInfo.<strong class="jxr_keyword">class</strong>,
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>              position = 1)
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>      @ApiResponses(value = {
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>          @ApiResponse(code = 200, message = <span class="jxr_string">"OK"</span>),
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          @ApiResponse(code = 200, message = <span class="jxr_string">"OK"</span>, response = SimulationInfo.<strong class="jxr_keyword">class</strong>),
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>          @ApiResponse(code = 500, message = <span class="jxr_string">"Error"</span>, response = SimulationInfoException.<strong class="jxr_keyword">class</strong>)
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      })
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">public</strong> Response getSimulationInfo(
@@ -114,6 +114,6 @@
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2014&#x2013;2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2014&#x2013;2017. All rights reserved.</div>
 </body>
 </html>
