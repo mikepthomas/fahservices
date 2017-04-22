@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.0" branch-rate="1.0" lines-covered="0" lines-valid="142" branches-covered="0" branches-valid="0" complexity="2.2142857142857144" version="2.1.1" timestamp="1492818046032">
+<coverage line-rate="0.0" branch-rate="1.0" lines-covered="0" lines-valid="142" branches-covered="0" branches-valid="0" complexity="2.2142857142857144" version="2.1.1" timestamp="1492886000670">
 	<sources>
 		<source>/Volumes/Documents/Repos/fahservices/src/main/java</source>
 		<source>/Volumes/Documents/Repos/fahservices/target/generated-sources/annotations</source>
