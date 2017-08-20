@@ -23,27 +23,24 @@ package info.mikethomas.fahservices.service;
  */
 
 import info.mikethomas.jfold.Connection;
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.exceptions.SimulationInfoException;
 import info.mikethomas.jfold.simulation.SimulationInfo;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -51,24 +48,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("simulation-info")
+@RestController("simulation-info")
 @Api(value = "/simulation-info", description = "Get current simulation information.")
 public class SimulationInfoResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of SlotInfoResource.
-     */
-    public SimulationInfoResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -77,13 +62,6 @@ public class SimulationInfoResource {
      * @param slot Slot number
      * @return an instance of java.lang.String
      */
-    @GET
-    @Path("/{slot}")
-    @Produces({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_XML,
-        MediaType.TEXT_XML
-    })
     @ApiOperation(value = "simulation-info {slot}",
             notes = "Get current simulation information.",
             response = SimulationInfo.class,
@@ -92,15 +70,22 @@ public class SimulationInfoResource {
         @ApiResponse(code = 200, message = "OK", response = SimulationInfo.class),
         @ApiResponse(code = 500, message = "Error", response = SimulationInfoException.class)
     })
-    public Response getSimulationInfo(
+    @RequestMapping(
+            value = "/simulation-info/{slot}",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getSimulationInfo(
             @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
+            @PathVariable("slot") final int slot) {
         try {
-            SimulationInfo value = connection.simulationInfo(slot);
-            return Response.status(Status.OK).entity(value).build();
+            return new ResponseEntity(connection.simulationInfo(slot), HttpStatus.OK);
         } catch (SimulationInfoException ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

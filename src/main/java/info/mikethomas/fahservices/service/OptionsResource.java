@@ -22,25 +22,23 @@ package info.mikethomas.fahservices.service;
  * #L%
  */
 
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.Connection;
 import info.mikethomas.jfold.exceptions.OptionsException;
 import info.mikethomas.jfold.options.Options;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -48,24 +46,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("options")
+@RestController("options")
 @Api(value = "/options", description = "List or set options with their values.")
 public class OptionsResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of OptionsResource.
-     */
-    public OptionsResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -73,12 +59,6 @@ public class OptionsResource {
      *
      * @return an instance of java.lang.String
      */
-    @GET
-    @Produces({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_XML,
-        MediaType.TEXT_XML
-    })
     @ApiOperation(value = "options",
             notes = "Get Options.",
             response = Options.class,
@@ -87,12 +67,20 @@ public class OptionsResource {
         @ApiResponse(code = 200, message = "OK", response = Options.class),
         @ApiResponse(code = 500, message = "Error", response = OptionsException.class)
     })
-    public Response getSlotOptions() {
+    @RequestMapping(
+            value = "/options",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getSlotOptions() {
         try {
-            Options value = connection.options(true, true);
-            return Response.status(Status.OK).entity(value).build();
+            return new ResponseEntity(connection.options(true, true),HttpStatus.OK);
         } catch (OptionsException ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

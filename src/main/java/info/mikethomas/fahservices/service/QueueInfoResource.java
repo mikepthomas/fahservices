@@ -23,26 +23,22 @@ package info.mikethomas.fahservices.service;
  */
 
 import info.mikethomas.jfold.Connection;
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.exceptions.QueueInfoException;
 import info.mikethomas.jfold.unit.Unit;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -50,24 +46,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("queue-info")
+@RestController("queue-info")
 @Api(value = "/queue-info", description = "Get work unit queue information.")
 public class QueueInfoResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of QueueInfoResource.
-     */
-    public QueueInfoResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -75,12 +59,6 @@ public class QueueInfoResource {
      *
      * @return an instance of java.lang.String
      */
-    @GET
-    @Produces({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_XML,
-        MediaType.TEXT_XML
-    })
     @ApiOperation(value = "queue-info",
             notes = "Get List of work unit queue information.",
             response = Unit.class,
@@ -90,13 +68,20 @@ public class QueueInfoResource {
         @ApiResponse(code = 200, message = "OK", response = Unit.class, responseContainer = "List"),
         @ApiResponse(code = 500, message = "Error", response = QueueInfoException.class)
     })
-    public Response getQueueInfo() {
+    @RequestMapping(
+            value = "/queue-info",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getQueueInfo() {
         try {
-            List<Unit> value = connection.queueInfo();
-            GenericEntity<List<Unit>> entity = new GenericEntity<List<Unit>>(value) { };
-            return Response.status(Status.OK).entity(entity).build();
+            return new ResponseEntity(connection.queueInfo(), HttpStatus.OK);
         } catch (QueueInfoException ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

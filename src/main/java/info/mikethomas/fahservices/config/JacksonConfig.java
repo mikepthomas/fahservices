@@ -1,4 +1,4 @@
-package info.mikethomas.fahservices.provider;
+package info.mikethomas.fahservices.config;
 
 /*
  * #%L
@@ -24,38 +24,30 @@ package info.mikethomas.fahservices.provider;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Provider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>JacksonContextResolver class.</p>
+ * <p>JacksonConfig class.</p>
  *
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Provider
-@Produces(MediaType.APPLICATION_JSON)
-public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
+@Configuration
+public class JacksonConfig {
 
-    private final ObjectMapper mapper;
+    private final Logger log = LoggerFactory.getLogger(JacksonConfig.class);
 
-    /**
-     * <p>Constructor for JacksonContextResolver.</p>
-     */
-    public JacksonContextResolver() {
-        mapper = new ObjectMapper();
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(Include.NON_NULL);
-        Logger.getLogger(this.getClass().getName()).log(Level.INFO,
-                "ObjectMapper SerializationInclusion: {0}", Include.NON_NULL);
-    }
 
-    /** {@inheritDoc} */
-    @Override
-    public ObjectMapper getContext(Class<?> type) {
+        log.info("ObjectMapper SerializationInclusion: " + Include.NON_NULL);
+
         return mapper;
     }
 }

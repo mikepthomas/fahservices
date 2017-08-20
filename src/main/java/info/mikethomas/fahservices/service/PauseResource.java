@@ -23,24 +23,23 @@ package info.mikethomas.fahservices.service;
  */
 
 import info.mikethomas.jfold.Connection;
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.exceptions.PauseException;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -48,24 +47,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("/pause")
+@RestController("pause")
 @Api(value = "/pause", description = "Pause all or one slot(s).")
 public class PauseResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of PauseResource.
-     */
-    public PauseResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -73,7 +60,6 @@ public class PauseResource {
      *
      * @return an instance of java.lang.String
      */
-    @GET
     @ApiOperation(value = "pause",
             notes = "Pause.",
             position = 1)
@@ -81,12 +67,21 @@ public class PauseResource {
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request", response = PauseException.class)
     })
-    public Response getPause() {
+    @RequestMapping(
+            value = "/pause",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getPause() {
         try {
             connection.pause();
-            return Response.status(Status.OK).build();
+            return new ResponseEntity(HttpStatus.OK);
         } catch (PauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -97,8 +92,6 @@ public class PauseResource {
      * @param slot Slot number
      * @return an instance of java.lang.String
      */
-    @GET
-    @Path("/{slot}")
     @ApiOperation(
             value = "pause",
             notes = "Pause the specified index.",
@@ -108,15 +101,23 @@ public class PauseResource {
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request", response = PauseException.class)
     })
-    public Response getPause(
+    @RequestMapping(
+            value = "/pause/{slot}",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getPause(
             @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
+            @PathVariable("slot") final int slot) {
         try {
             connection.pause(slot);
-            return Response.status(Status.OK).build();
+            return new ResponseEntity(HttpStatus.OK);
         } catch (PauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.BAD_REQUEST);
         }
     }
 }

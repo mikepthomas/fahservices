@@ -13,6 +13,17 @@
         </activatedProfiles>
     </action>
     <action>
+        <actionName>CUSTOM-Deploy Site</actionName>
+        <displayName>Deploy Site</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>site-deploy</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>release-profile</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
         <actionName>CUSTOM-Update File Licenses</actionName>
         <displayName>Update File Licenses</displayName>
         <goals>

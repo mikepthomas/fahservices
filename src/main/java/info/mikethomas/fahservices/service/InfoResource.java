@@ -22,26 +22,22 @@ package info.mikethomas.fahservices.service;
  * #L%
  */
 
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.Connection;
 import info.mikethomas.jfold.exceptions.InfoException;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -49,24 +45,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("info")
+@RestController("info")
 @Api(value = "/info", description = "Print application information.")
 public class InfoResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of InfoResource.
-     */
-    public InfoResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -74,25 +58,28 @@ public class InfoResource {
      *
      * @return an instance of java.lang.String
      */
-    @GET
-    @Produces({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_XML,
-        MediaType.TEXT_XML
-    })
     @ApiOperation(value = "info",
             notes = "Get Info.",
             position = 1)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 200, message = "OK", responseContainer = "List", response = String.class),
         @ApiResponse(code = 500, message = "Error", response = InfoException.class)
     })
-    public Response getInfo() {
+    @RequestMapping(
+            value = "/info",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getInfo() {
         try {
-            List<Object> value = connection.info();
-            return Response.status(Status.OK).entity(new GenericEntity<List<Object>>(value) { }).build();
-        } catch (InfoException ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+            return new ResponseEntity(connection.info(), HttpStatus.OK);
+        }
+        catch (InfoException ex) {
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

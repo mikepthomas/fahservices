@@ -22,28 +22,25 @@ package info.mikethomas.fahservices.service;
  * #L%
  */
 
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.Connection;
 import info.mikethomas.jfold.exceptions.SlotOptionsException;
 import info.mikethomas.jfold.slot.SlotOptions;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -51,24 +48,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("slot-options")
+@RestController("slot-options")
 @Api(value = "/slot-options", description = "Get slot options.")
 public class SlotOptionsResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of SlotOptionsResource.
-     */
-    public SlotOptionsResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -77,13 +62,6 @@ public class SlotOptionsResource {
      * @param slot Slot number
      * @return an instance of java.lang.String
      */
-    @GET
-    @Path("/{slot}")
-    @Produces({
-        MediaType.APPLICATION_JSON,
-        MediaType.APPLICATION_XML,
-        MediaType.TEXT_XML
-    })
     @ApiOperation(value = "slot-options {slot}",
             notes = "Get Slot Options at index.",
             response = SlotOptions.class,
@@ -92,15 +70,22 @@ public class SlotOptionsResource {
         @ApiResponse(code = 200, message = "OK", response = SlotOptions.class),
         @ApiResponse(code = 500, message = "Error", response = SlotOptionsException.class)
     })
-    public Response getSlotOptions(
+    @RequestMapping(
+            value = "/slot-options/{slot}",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getSlotOptions(
             @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
+            @PathVariable("slot") final int slot) {
         try {
-            SlotOptions value = connection.slotOptions(slot);
-            return Response.status(Status.OK).entity(value).build();
+            return new ResponseEntity(connection.slotOptions(slot), HttpStatus.OK);
         } catch (SlotOptionsException ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

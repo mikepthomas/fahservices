@@ -23,24 +23,23 @@ package info.mikethomas.fahservices.service;
  */
 
 import info.mikethomas.jfold.Connection;
-import info.mikethomas.jfold.ClientConnection;
 import info.mikethomas.jfold.exceptions.UnpauseException;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service.
@@ -48,24 +47,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@Path("/unpause")
+@RestController("unpause")
 @Api(value = "/unpause", description = "Unpause all or one slot(s).")
 public class UnpauseResource {
 
-    @Context
-    private UriInfo context;
+    @Autowired
     private Connection connection;
-
-    /**
-     * Creates a new instance of UnpauseResource.
-     */
-    public UnpauseResource() {
-        try {
-            connection = new ClientConnection("localhost", 36330);
-        } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Retrieves representation of an instance of
@@ -73,7 +60,6 @@ public class UnpauseResource {
      *
      * @return an instance of java.lang.String
      */
-    @GET
     @ApiOperation(value = "unpause",
             notes = "Unpause.",
             position = 1)
@@ -81,12 +67,21 @@ public class UnpauseResource {
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request", response = UnpauseException.class)
     })
-    public Response getUnpause() {
+    @RequestMapping(
+            value = "/unpause",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getUnpause() {
         try {
             connection.unpause();
-            return Response.status(Status.OK).build();
+            return new ResponseEntity(HttpStatus.OK);
         } catch (UnpauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -97,8 +92,6 @@ public class UnpauseResource {
      * @param slot Slot number
      * @return an instance of java.lang.String
      */
-    @GET
-    @Path("/{slot}")
     @ApiOperation(
             value = "unpause",
             notes = "Unpause the specified index.",
@@ -108,15 +101,23 @@ public class UnpauseResource {
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request", response = UnpauseException.class)
     })
-    public Response getUnpause(
+    @RequestMapping(
+            value = "/unpause/{slot}",
+            method = RequestMethod.GET,
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.TEXT_XML_VALUE
+            })
+    @ResponseBody
+    public ResponseEntity getUnpause(
             @ApiParam(value = "slot number", required = true)
-            @DefaultValue("0")
-            @PathParam("slot") final int slot) {
+            @PathVariable("slot") final int slot) {
         try {
             connection.unpause(slot);
-            return Response.status(Status.OK).build();
+            return new ResponseEntity(HttpStatus.OK);
         } catch (UnpauseException ex) {
-            return Response.status(Status.BAD_REQUEST).entity(ex).build();
+            return new ResponseEntity(ex, HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -22,45 +22,52 @@ package info.mikethomas.fahservices.config;
  * #L%
  */
 
-import io.swagger.jaxrs.config.BeanConfig;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import java.util.Collections;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * <p>SwaggerInitConfig class.</p>
+ * <p>
+ SwaggerInitConfig class.</p>
  *
  * @author Michael Thomas (mikepthomas@outlook.com)
  * @version $Id: $Id
  */
-@WebServlet(name = "SwaggerInitConfig", loadOnStartup = 1)
-public class SwaggerInitConfig extends HttpServlet {
+@Configuration
+@EnableSwagger2
+public class SwaggerInitConfig {
 
-    /** {@inheritDoc} */
-    @Override
-    public void init(ServletConfig servletConfig) {
-        try {
-            super.init(servletConfig);
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo());
+    }
 
-            BeanConfig beanConfig = new BeanConfig();
-            beanConfig.setVersion("1.2");
-
-            beanConfig.setTitle("FAHServices");
-            beanConfig.setDescription("Web services to connect to a folding@home v7 client");
-            beanConfig.setTermsOfServiceUrl("http://mikethomas.info");
-            beanConfig.setContact("mikepthomas@outlook.com");
-            beanConfig.setLicense("The GNU General Public License, Version 3");
-            beanConfig.setLicenseUrl("http://www.gnu.org/copyleft/gpl.html");
-
-            beanConfig.setSchemes(new String[]{"http"});
-            beanConfig.setHost("localhost:8080");
-            beanConfig.setBasePath("/fahservices/rest");
-            beanConfig.setResourcePackage("info.mikethomas.fahservices.service");
-
-            beanConfig.setScan(true);
-        } catch (ServletException e) {
-            System.out.println(e.getMessage());
-        }
+    private ApiInfo apiInfo() {
+        Contact contact = new Contact("Mike Thomas",
+                "http://mikethomas.info",
+                "mikepthomas@outlook.com");
+        return new ApiInfo(
+                "FAHServices",
+                "Web services to connect to a folding@home v7 client",
+                "1.2",
+                "http://mikethomas.info",
+                contact,
+                "The GNU General Public License, Version 3",
+                "http://www.gnu.org/copyleft/gpl.html",
+                Collections.EMPTY_LIST);
     }
 }
