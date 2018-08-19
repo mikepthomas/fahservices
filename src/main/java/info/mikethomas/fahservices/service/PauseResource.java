@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2017 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2018 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -23,7 +23,6 @@ package info.mikethomas.fahservices.service;
  */
 
 import info.mikethomas.jfold.Connection;
-import info.mikethomas.jfold.exceptions.PauseException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -64,8 +63,7 @@ public class PauseResource {
             notes = "Pause.",
             position = 1)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad Request", response = PauseException.class)
+        @ApiResponse(code = 200, message = "OK")
     })
     @RequestMapping(
             value = "/pause",
@@ -77,12 +75,8 @@ public class PauseResource {
             })
     @ResponseBody
     public ResponseEntity getPause() {
-        try {
-            connection.pause();
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (PauseException ex) {
-            return new ResponseEntity(ex, HttpStatus.BAD_REQUEST);
-        }
+        connection.pause();
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -98,8 +92,7 @@ public class PauseResource {
             position = 2
     )
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 400, message = "Bad Request", response = PauseException.class)
+        @ApiResponse(code = 200, message = "OK")
     })
     @RequestMapping(
             value = "/pause/{slot}",
@@ -113,11 +106,7 @@ public class PauseResource {
     public ResponseEntity getPause(
             @ApiParam(value = "slot number", required = true)
             @PathVariable("slot") final int slot) {
-        try {
-            connection.pause(slot);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (PauseException ex) {
-            return new ResponseEntity(ex, HttpStatus.BAD_REQUEST);
-        }
+        connection.pause(slot);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

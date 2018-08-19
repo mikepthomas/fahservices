@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.config;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2017 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2018 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,6 +24,7 @@ package info.mikethomas.fahservices.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +44,14 @@ public class JacksonConfig {
 
     @Bean
     public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(Include.NON_NULL);
+        var mapper = new ObjectMapper();
 
-        log.info("ObjectMapper SerializationInclusion: " + Include.NON_NULL);
+        // Enable Jaxb Annotation Introspector
+        mapper.registerModule(new JaxbAnnotationModule());
+
+        // Set Serialization Inclusion
+        mapper.setSerializationInclusion(Include.NON_NULL);
+        log.info("ObjectMapper SerializationInclusion: {}", Include.NON_NULL);
 
         return mapper;
     }

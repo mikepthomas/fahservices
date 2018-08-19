@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2017 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2018 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -23,7 +23,6 @@ package info.mikethomas.fahservices.service;
  */
 
 import info.mikethomas.jfold.Connection;
-import info.mikethomas.jfold.exceptions.SlotAddException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,8 +64,7 @@ public class SlotAddResource {
             notes = "Add a new slot.",
             position = 1)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = SlotAddException.class)
+        @ApiResponse(code = 200, message = "OK")
     })
     @RequestMapping(
             value = "/slot-add/{type}",
@@ -80,11 +78,7 @@ public class SlotAddResource {
     public ResponseEntity getSlotAdd(
             @ApiParam(value = "slot type", allowableValues = "CPU,GPU", required = true)
             @PathVariable("type") final String type) {
-        try {
-            connection.slotAdd(type);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (SlotAddException ex) {
-            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        connection.slotAdd(type);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

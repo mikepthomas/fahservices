@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.config;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2017 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2018 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -57,7 +57,7 @@ public class SwaggerInitConfig {
     }
 
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("Mike Thomas",
+        var contact = new Contact("Mike Thomas",
                 "http://mikethomas.info",
                 "mikepthomas@outlook.com");
         return new ApiInfo(

@@ -16,7 +16,6 @@
         <actionName>CUSTOM-Deploy Site</actionName>
         <displayName>Deploy Site</displayName>
         <goals>
-            <goal>clean</goal>
             <goal>site-deploy</goal>
         </goals>
         <activatedProfiles>
@@ -43,5 +42,19 @@
         <activatedProfiles>
             <activatedProfile>release-profile</activatedProfile>
         </activatedProfiles>
+    </action>
+    <action>
+        <actionName>run</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+        </goals>
+        <properties>
+            <exec.args>-classpath %classpath info.mikethomas.fahservices.Application</exec.args>
+            <exec.executable>java</exec.executable>
+        </properties>
     </action>
 </actions>
