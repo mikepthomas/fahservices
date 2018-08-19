@@ -92,6 +92,7 @@
         <version.maven-surefire-plugin>2.22.0</version.maven-surefire-plugin>
         <version.jacoco-maven-plugin>0.8.1</version.jacoco-maven-plugin>
         <version.license-maven-plugin>1.16</version.license-maven-plugin>
+        <version.versions-maven-plugin>2.5</version.versions-maven-plugin>
     </properties>
 
     <dependencyManagement/>
@@ -266,6 +267,11 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
                     <version>${version.license-maven-plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${version.versions-maven-plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -465,7 +471,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.5</version>
+                <version>${version.versions-maven-plugin}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
