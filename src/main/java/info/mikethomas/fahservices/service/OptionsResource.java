@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2018 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -78,7 +78,7 @@ public class OptionsResource {
     @ResponseBody
     public ResponseEntity getSlotOptions() {
         try {
-            return new ResponseEntity(connection.options(true, true),HttpStatus.OK);
+            return new ResponseEntity(connection.options(true, true), HttpStatus.OK);
         } catch (OptionsException ex) {
             return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
