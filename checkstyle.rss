@@ -23,10 +23,10 @@ under the License.
     <link>http://www.mikethomas.info/fahservices</link>
     <description>FAHServices - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2014 - 2018 Mike Thomas</copyright>
+    <copyright>&#169;2014 - 2019 Mike Thomas</copyright>
     <item>
       <title>File: 14,
-             Errors: 109,
+             Errors: 108,
              Warnings: 0,
              Infos: 0
       </title>
@@ -139,7 +139,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  9
+                  8
                 </td>
               </tr>
                           <tr>
