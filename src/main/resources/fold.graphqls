@@ -1,0 +1,18 @@
+type Query {
+    queueInfo: [Unit]
+}
+
+type Unit {
+    id: String
+    state: String
+    error: String
+    project: Int
+    run: Int
+    clone: Int
+    gen: Int
+    core: String
+    unit: String
+    percentDone: String
+    totalFrames: Int
+    framesDone: Int
+}
