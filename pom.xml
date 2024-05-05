@@ -55,7 +55,7 @@
     <scm>
         <connection>scm:git:git://github.com/${project.repository.path}.git</connection>
         <developerConnection>scm:git:git@github.com:${project.repository.path}.git</developerConnection>
-        <tag>master</tag>
+        <tag>main</tag>
         <url>${project.domain.source}/${project.repository.path}</url>
     </scm>
     <issueManagement>
@@ -359,7 +359,7 @@
                 <version>2.3</version>
                 <configuration>
                     <displayChangeSetDetailUrl>${project.scm.url}/commit/%REV%</displayChangeSetDetailUrl>
-                    <displayFileDetailUrl>${project.scm.url}/blob/develop/%FILE%</displayFileDetailUrl>
+                    <displayFileDetailUrl>${project.scm.url}/blob/main/%FILE%</displayFileDetailUrl>
                     <displayFileRevDetailUrl>${project.scm.url}/blob/%REV%/%FILE%</displayFileRevDetailUrl>
                 </configuration>
                 <reportSets>
