@@ -1,4 +1,5 @@
 info.mikethomas.fahservices
 info.mikethomas.fahservices.config
 info.mikethomas.fahservices.filter
+info.mikethomas.fahservices.graphql
 info.mikethomas.fahservices.service

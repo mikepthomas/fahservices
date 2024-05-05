@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"info.mikethomas.fahservices"},{"l":"info.mikethomas.fahservices.config"},{"l":"info.mikethomas.fahservices.filter"},{"l":"info.mikethomas.fahservices.service"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"info.mikethomas.fahservices"},{"l":"info.mikethomas.fahservices.config"},{"l":"info.mikethomas.fahservices.filter"},{"l":"info.mikethomas.fahservices.graphql"},{"l":"info.mikethomas.fahservices.service"}];updateSearchResults();
