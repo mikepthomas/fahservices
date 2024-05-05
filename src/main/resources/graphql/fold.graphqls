@@ -13,6 +13,8 @@ type Unit {
     core: String
     unit: String
     percentDone: String
+    eta: String
+    ppd: Float
     totalFrames: Int
     framesDone: Int
 }

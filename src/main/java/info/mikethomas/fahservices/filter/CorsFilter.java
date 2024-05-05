@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.filter;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -23,13 +23,13 @@ package info.mikethomas.fahservices.filter;
  */
 
 import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * <p>CorsFilter class.</p>
@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version $Id: $Id
  */
 @WebFilter(filterName = "CorsFilter", urlPatterns = { "/rest/*" })
-public class CorsFilter implements javax.servlet.Filter {
+public class CorsFilter implements jakarta.servlet.Filter {
 
     /** {@inheritDoc} */
     @Override

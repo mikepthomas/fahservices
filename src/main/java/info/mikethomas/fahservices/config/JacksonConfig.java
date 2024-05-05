@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.config;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,10 +24,10 @@ package info.mikethomas.fahservices.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -38,16 +38,20 @@ import org.springframework.context.annotation.Configuration;
  * @version $Id: $Id
  */
 @Configuration
+@Slf4j
 public class JacksonConfig {
 
-    private final Logger log = LoggerFactory.getLogger(JacksonConfig.class);
-
+    /**
+     * <p>objectMapper.</p>
+     *
+     * @return a {@link com.fasterxml.jackson.databind.ObjectMapper} object
+     */
     @Bean
     public ObjectMapper objectMapper() {
         var mapper = new ObjectMapper();
 
         // Enable Jaxb Annotation Introspector
-        mapper.registerModule(new JaxbAnnotationModule());
+        mapper.registerModule(new JakartaXmlBindAnnotationModule());
 
         // Set Serialization Inclusion
         mapper.setSerializationInclusion(Include.NON_NULL);

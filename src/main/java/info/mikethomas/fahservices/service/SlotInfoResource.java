@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -26,11 +26,13 @@ import info.mikethomas.jfold.Connection;
 import info.mikethomas.jfold.exceptions.SlotInfoException;
 import info.mikethomas.jfold.slot.Slot;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
@@ -38,10 +40,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -51,7 +55,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version $Id: $Id
  */
 @RestController("slot-info")
-@Api(value = "/slot-info", description = "Get slot information.")
+@Tag(name = "Slot Info", description = "Get slot information.")
 public class SlotInfoResource {
 
     @Autowired
@@ -62,15 +66,12 @@ public class SlotInfoResource {
      * info.mikethomas.fahservices.service.SlotInfoResource.
      *
      * @return an instance of java.lang.String
+     * @throws info.mikethomas.jfold.exceptions.SlotInfoException if any.
      */
-    @ApiOperation(value = "slot-info",
-            notes = "Get List of slot information.",
-            position = 1,
-            response = Slot.class,
-            responseContainer = "List")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Slot.class, responseContainer = "List"),
-        @ApiResponse(code = 500, message = "Error", response = SlotInfoException.class)
+    @Operation(summary = "slot-info", description = "Get List of slot information.", responses = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = Slot.class)))
+            })
     })
     @RequestMapping(
             value = "/slot-info",
@@ -81,12 +82,8 @@ public class SlotInfoResource {
                 MediaType.TEXT_XML_VALUE
             })
     @ResponseBody
-    public ResponseEntity getSlotInfo() {
-        try {
-            return new ResponseEntity(getSlotInfoList(), HttpStatus.OK);
-        } catch (SlotInfoException ex) {
-            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<List<Slot>> getSlotInfo() throws SlotInfoException {
+        return new ResponseEntity<>(getSlotInfoList(), HttpStatus.OK);
     }
 
     /**
@@ -95,16 +92,12 @@ public class SlotInfoResource {
      *
      * @param slot Slot number
      * @return an instance of java.lang.String
+     * @throws info.mikethomas.jfold.exceptions.SlotInfoException if any.
      */
-    @ApiOperation(
-            value = "slot-info",
-            notes = "Get slot information at specified index.",
-            response = Slot.class,
-            position = 2
-    )
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 500, message = "Error", response = SlotInfoException.class)
+    @Operation(summary = "slot-info {slot}", description = "Get slot information at specified index.", responses = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(schema = @Schema(implementation = Slot.class))
+            })
     })
     @RequestMapping(
             value = "/slot-info/{slot}",
@@ -115,16 +108,30 @@ public class SlotInfoResource {
                 MediaType.TEXT_XML_VALUE
             })
     @ResponseBody
-    public ResponseEntity getSlotInfo(
-            @ApiParam(value = "slot number", required = true)
-            @PathVariable("slot") final int slot) {
-        try {
-            return new ResponseEntity(getSlotInfoList().get(slot), HttpStatus.OK);
-        } catch (SlotInfoException ex) {
-            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Slot> getSlotInfo(
+            @Parameter(description = "slot number", required = true)
+            @PathVariable("slot") final int slot) throws SlotInfoException {
+        return new ResponseEntity<>(getSlotInfoList().get(slot), HttpStatus.OK);
     }
 
+    /**
+     * <p>handleException.</p>
+     *
+     * @param ex a {@link java.lang.Exception} object
+     * @return a {@link org.springframework.http.ResponseEntity} object
+     */
+    @ExceptionHandler(SlotInfoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Exception> handleException(Exception ex) {
+        return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * <p>getSlotInfoList.</p>
+     *
+     * @return a {@link java.util.List} object
+     * @throws info.mikethomas.jfold.exceptions.SlotInfoException if any.
+     */
     private List<Slot> getSlotInfoList() throws SlotInfoException {
         return connection.slotInfo();
     }

@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,11 +24,11 @@ package info.mikethomas.fahservices.service;
 
 import info.mikethomas.jfold.Connection;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version $Id: $Id
  */
 @RestController("slot-add")
-@Api(value = "/slot-add", description = "Add a new slot.")
+@Tag(name = "Slot Add", description = "Add a new slot.")
 public class SlotAddResource {
 
     @Autowired
@@ -60,11 +60,8 @@ public class SlotAddResource {
      * @param type Slot type
      * @return an instance of java.lang.String
      */
-    @ApiOperation(value = "slot-add {type}",
-            notes = "Add a new slot.",
-            position = 1)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK")
+    @Operation(summary = "slot-add {type}", description = "Add a new slot.", responses = {
+            @ApiResponse(responseCode = "200", description = "OK")
     })
     @RequestMapping(
             value = "/slot-add/{type}",
@@ -75,10 +72,12 @@ public class SlotAddResource {
                 MediaType.TEXT_XML_VALUE
             })
     @ResponseBody
-    public ResponseEntity getSlotAdd(
-            @ApiParam(value = "slot type", allowableValues = "CPU,GPU", required = true)
+    public ResponseEntity<String> getSlotAdd(
+            @Parameter(description = "slot type", required = true, schema =
+                    @Schema(allowableValues = { "CPU", "GPU" })
+            )
             @PathVariable("type") final String type) {
         connection.slotAdd(type);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

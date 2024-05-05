@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,11 +24,10 @@ package info.mikethomas.fahservices.service;
 
 import info.mikethomas.jfold.Connection;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version $Id: $Id
  */
 @RestController("pause")
-@Api(value = "/pause", description = "Pause all or one slot(s).")
+@Tag(name = "Pause", description = "Pause all or one slot(s).")
 public class PauseResource {
 
     @Autowired
@@ -59,11 +58,8 @@ public class PauseResource {
      *
      * @return an instance of java.lang.String
      */
-    @ApiOperation(value = "pause",
-            notes = "Pause.",
-            position = 1)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK")
+    @Operation(summary = "pause", description = "Pause all.", responses = {
+            @ApiResponse(responseCode = "200", description = "OK")
     })
     @RequestMapping(
             value = "/pause",
@@ -74,9 +70,9 @@ public class PauseResource {
                 MediaType.TEXT_XML_VALUE
             })
     @ResponseBody
-    public ResponseEntity getPause() {
+    public ResponseEntity<String> getPause() {
         connection.pause();
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -86,13 +82,8 @@ public class PauseResource {
      * @param slot Slot number
      * @return an instance of java.lang.String
      */
-    @ApiOperation(
-            value = "pause",
-            notes = "Pause the specified index.",
-            position = 2
-    )
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK")
+    @Operation(summary = "pause slot {slot}", description = "Pause the specified index.", responses = {
+            @ApiResponse(responseCode = "200", description = "OK")
     })
     @RequestMapping(
             value = "/pause/{slot}",
@@ -103,10 +94,10 @@ public class PauseResource {
                 MediaType.TEXT_XML_VALUE
             })
     @ResponseBody
-    public ResponseEntity getPause(
-            @ApiParam(value = "slot number", required = true)
+    public ResponseEntity<String> getPause(
+            @Parameter(description = "slot number", required = true)
             @PathVariable("slot") final int slot) {
         connection.pause(slot);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -23,6 +23,16 @@
         </activatedProfiles>
     </action>
     <action>
+        <actionName>CUSTOM-Create PDF</actionName>
+        <displayName>Create PDF</displayName>
+        <goals>
+            <goal>pdf:pdf</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>release-profile</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
         <actionName>CUSTOM-Update File Licenses</actionName>
         <displayName>Update File Licenses</displayName>
         <goals>
@@ -38,6 +48,17 @@
         <goals>
             <goal>javadoc:fix</goal>
             <goal>javadoc:test-fix</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>release-profile</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>CUSTOM-Deploy to OSS</actionName>
+        <displayName>Deploy to OSS</displayName>
+        <recursive>false</recursive>
+        <goals>
+            <goal>deploy</goal>
         </goals>
         <activatedProfiles>
             <activatedProfile>release-profile</activatedProfile>

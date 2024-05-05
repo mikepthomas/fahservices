@@ -4,7 +4,7 @@ package info.mikethomas.fahservices.service;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -26,20 +26,23 @@ import info.mikethomas.jfold.Connection;
 import info.mikethomas.jfold.exceptions.SimulationInfoException;
 import info.mikethomas.jfold.simulation.SimulationInfo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -49,7 +52,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version $Id: $Id
  */
 @RestController("simulation-info")
-@Api(value = "/simulation-info", description = "Get current simulation information.")
+@Tag(name = "Simulation Info", description = "Get current simulation information.")
 public class SimulationInfoResource {
 
     @Autowired
@@ -61,14 +64,12 @@ public class SimulationInfoResource {
      *
      * @param slot Slot number
      * @return an instance of java.lang.String
+     * @throws info.mikethomas.jfold.exceptions.SimulationInfoException if any.
      */
-    @ApiOperation(value = "simulation-info {slot}",
-            notes = "Get current simulation information.",
-            response = SimulationInfo.class,
-            position = 1)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = SimulationInfo.class),
-        @ApiResponse(code = 500, message = "Error", response = SimulationInfoException.class)
+    @Operation(summary = "simulation-info {slot}", description = "Get current simulation information.", responses = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(schema = @Schema(implementation = SimulationInfo.class))
+            })
     })
     @RequestMapping(
             value = "/simulation-info/{slot}",
@@ -79,13 +80,21 @@ public class SimulationInfoResource {
                 MediaType.TEXT_XML_VALUE
             })
     @ResponseBody
-    public ResponseEntity getSimulationInfo(
-            @ApiParam(value = "slot number", required = true)
-            @PathVariable("slot") final int slot) {
-        try {
-            return new ResponseEntity(connection.simulationInfo(slot), HttpStatus.OK);
-        } catch (SimulationInfoException ex) {
-            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<SimulationInfo> getSimulationInfo(
+            @Parameter(description = "slot number", required = true)
+            @PathVariable("slot") final int slot) throws SimulationInfoException {
+        return new ResponseEntity<>(connection.simulationInfo(slot), HttpStatus.OK);
+    }
+
+    /**
+     * <p>handleException.</p>
+     *
+     * @param ex a {@link java.lang.Exception} object
+     * @return a {@link org.springframework.http.ResponseEntity} object
+     */
+    @ExceptionHandler(SimulationInfoException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Exception> handleException(Exception ex) {
+        return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

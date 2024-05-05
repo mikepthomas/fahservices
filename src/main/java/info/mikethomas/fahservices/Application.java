@@ -4,7 +4,7 @@ package info.mikethomas.fahservices;
  * #%L
  * This file is part of FAHServices.
  * %%
- * Copyright (C) 2014 - 2019 Mike Thomas <mikepthomas@outlook.com>
+ * Copyright (C) 2014 - 2024 Mike Thomas <mikepthomas@outlook.com>
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -40,10 +40,21 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class Application {
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects
+     */
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
+    /**
+     * <p>fahConnection.</p>
+     *
+     * @return a {@link info.mikethomas.jfold.Connection} object
+     * @throws java.io.IOException if any.
+     */
     @Bean
     public Connection fahConnection() throws IOException {
         return new ClientConnection("localhost", 36330);
